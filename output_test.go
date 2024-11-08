@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/santhosh-tekuri/jsonschema/v6"
+	"github.com/liuxd6825/jsonschema/v6"
 )
 
 func testOutputDir(t *testing.T, suite, dir string, draft *jsonschema.Draft) {

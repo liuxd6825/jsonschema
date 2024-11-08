@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/santhosh-tekuri/jsonschema/v6"
+	"github.com/liuxd6825/jsonschema/v6"
 	"golang.org/x/text/message"
 )
 

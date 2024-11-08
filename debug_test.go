@@ -3,11 +3,10 @@ package jsonschema_test
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/liuxd6825/jsonschema/v6"
 	"os"
 	"strings"
 	"testing"
-
-	"github.com/santhosh-tekuri/jsonschema/v6"
 )
 
 func TestDebug(t *testing.T) {
