@@ -144,6 +144,7 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 			s.Types = newTypes(t)
 		}
 		if arr := c.arrVal("enum"); arr != nil {
+			arr = append(arr, "date", "datetime")
 			s.Enum = newEnum(arr)
 		}
 		s.MultipleOf = c.numVal("multipleOf")

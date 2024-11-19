@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/big"
+	"time"
 )
 
 // Schema is the regpresentation of a compiled
@@ -107,7 +108,13 @@ const (
 	stringType
 	arrayType
 	objectType
+	dateType
+	dateTimeType
 )
+
+type ISchemaType interface {
+	GetSchemaType() string
+}
 
 func typeOf(v any) jsonType {
 	switch v.(type) {
@@ -123,13 +130,28 @@ func typeOf(v any) jsonType {
 		return arrayType
 	case map[string]any:
 		return objectType
+	case time.Time:
+		return dateTimeType
+	case *time.Time:
+		return dateTimeType
 	default:
+		if schemaType, ok := v.(ISchemaType); ok {
+			sType := schemaType.GetSchemaType()
+			return typeFromString(sType)
+		}
+		if _, ok := v.(*time.Time); ok {
+			return dateTimeType
+		}
 		return invalidType
 	}
 }
 
 func typeFromString(s string) jsonType {
 	switch s {
+	case "date":
+		return dateType
+	case "datetime":
+		return dateTimeType
 	case "null":
 		return nullType
 	case "boolean":
@@ -164,6 +186,10 @@ func (jt jsonType) String() string {
 		return "array"
 	case objectType:
 		return "object"
+	case dateType:
+		return "date"
+	case dateTimeType:
+		return "datetime"
 	}
 	return ""
 }
@@ -188,6 +214,8 @@ func newTypes(v any) *Types {
 	if types.IsEmpty() {
 		return nil
 	}
+	types.add(dateTimeType)
+	types.add(dateType)
 	return &types
 }
 
@@ -200,13 +228,19 @@ func (tt *Types) add(t jsonType) {
 }
 
 func (tt Types) contains(t jsonType) bool {
-	return int(tt)&int(t) != 0
+	val := int(tt)&int(t) != 0
+	if !val {
+		if t == dateTimeType || t == dateType {
+			val = true
+		}
+	}
+	return val
 }
 
 func (tt Types) ToStrings() []string {
 	types := []jsonType{
 		nullType, booleanType, numberType, integerType,
-		stringType, arrayType, objectType,
+		stringType, arrayType, objectType, dateType, dateTimeType,
 	}
 	var arr []string
 	for _, t := range types {
@@ -233,6 +267,8 @@ func newEnum(arr []any) *Enum {
 	for _, item := range arr {
 		types.add(typeOf(item))
 	}
+	types.add(dateType)
+	types.add(dateTimeType)
 	return &Enum{arr, types}
 }
 

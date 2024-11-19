@@ -96,8 +96,12 @@ func (vd *validator) validate() (*uneval, error) {
 
 	// type --
 	if s.Types != nil && !s.Types.IsEmpty() {
-		matched := s.Types.contains(t) || (s.Types.contains(integerType) && t == numberType && isInteger(v))
-		if !matched {
+		if t == dateType {
+
+		}
+		isContains := s.Types.contains(t)
+		isint := s.Types.contains(integerType) && t == numberType && isInteger(v)
+		if !isContains && !isint {
 			return nil, vd.error(&kind.Type{Got: t.String(), Want: s.Types.ToStrings()})
 		}
 	}
@@ -114,7 +118,8 @@ func (vd *validator) validate() (*uneval, error) {
 
 	// enum --
 	if s.Enum != nil {
-		matched := s.Enum.types.contains(typeOf(v))
+		tVal := typeOf(v)
+		matched := s.Enum.types.contains(tVal)
 		if matched {
 			matched = false
 			for _, item := range s.Enum.Values {
@@ -127,9 +132,11 @@ func (vd *validator) validate() (*uneval, error) {
 				}
 			}
 		}
+
 		if !matched {
 			return nil, vd.error(&kind.Enum{Got: v, Want: s.Enum.Values})
 		}
+
 	}
 
 	// format --
