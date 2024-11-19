@@ -214,8 +214,6 @@ func newTypes(v any) *Types {
 	if types.IsEmpty() {
 		return nil
 	}
-	types.add(dateTimeType)
-	types.add(dateType)
 	return &types
 }
 
@@ -229,11 +227,6 @@ func (tt *Types) add(t jsonType) {
 
 func (tt Types) contains(t jsonType) bool {
 	val := int(tt)&int(t) != 0
-	if !val {
-		if t == dateTimeType || t == dateType {
-			val = true
-		}
-	}
 	return val
 }
 
@@ -267,8 +260,6 @@ func newEnum(arr []any) *Enum {
 	for _, item := range arr {
 		types.add(typeOf(item))
 	}
-	types.add(dateType)
-	types.add(dateTimeType)
 	return &Enum{arr, types}
 }
 

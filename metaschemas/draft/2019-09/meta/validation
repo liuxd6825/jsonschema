@@ -84,7 +84,9 @@
 				"null",
 				"number",
 				"object",
-				"string"
+				"string",
+				"date",
+				"datetime"
 			]
 		},
 		"stringArray": {

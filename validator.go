@@ -96,9 +96,6 @@ func (vd *validator) validate() (*uneval, error) {
 
 	// type --
 	if s.Types != nil && !s.Types.IsEmpty() {
-		if t == dateType {
-
-		}
 		isContains := s.Types.contains(t)
 		isint := s.Types.contains(integerType) && t == numberType && isInteger(v)
 		if !isContains && !isint {

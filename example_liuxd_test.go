@@ -102,7 +102,7 @@ func Test_OneOf(t *testing.T) {
       "type": "object",
       "properties": {
 		"birthday":{
-		  "type": ["date","null"]
+		  "type": ["date"]
 		}
 	  }
 	}
