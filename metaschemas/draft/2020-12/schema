@@ -52,6 +52,12 @@
 			"$comment": "\"$recursiveRef\" has been replaced by \"$dynamicRef\".",
 			"$ref": "meta/core#/$defs/uriReferenceString",
 			"deprecated": true
-		}
+		},
+        "name": {
+            "type": "string"
+        },
+        "order": {
+            "type": "number"
+        }
 	}
 }

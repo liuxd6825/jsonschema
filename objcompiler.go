@@ -207,6 +207,11 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 		s.Default = &v
 	}
 
+	s.Order = c.intVal("order")
+	s.Name = c.string("name")
+	if s.Name == "" {
+		s.Name = s.getName()
+	}
 	return nil
 }
 

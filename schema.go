@@ -93,6 +93,10 @@ type Schema struct {
 	WriteOnly   bool   `json:"writeOnly,omitempty"`
 	Examples    []any  `json:"examples,omitempty"`
 	Deprecated  bool   `json:"deprecated,omitempty"`
+
+	// liuxd extend field
+	Order *int   `json:"order,omitempty"` // 排列顺序
+	Name  string `json:"name,omitempty"`  // 名称
 }
 
 // --

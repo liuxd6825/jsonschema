@@ -1,5 +1,15 @@
 package jsonschema
 
+import (
+	"sort"
+	"strings"
+)
+
+// GetAllProperties
+//
+//	@Description: 取得所有属性
+//	@receiver sch
+//	@return map[string]*Schema
 func (sch *Schema) GetAllProperties() map[string]*Schema {
 	props := make(map[string]*Schema)
 	sch.addMap(sch, props)
@@ -7,8 +17,44 @@ func (sch *Schema) GetAllProperties() map[string]*Schema {
 	for _, item := range sch.AllOf {
 		sch.addMap(item, props)
 	}
-
 	return props
+}
+
+// GetSortProperties
+//
+//	@Description: 取得所有排序后的属性
+//	@receiver sch
+//	@return []*Schema
+func (sch *Schema) GetSortProperties() []*Schema {
+	props := sch.GetAllProperties()
+	return sch.SortSchemas(props)
+}
+
+// SortSchemas
+//
+//	@Description: 对schema进行排序
+//	@receiver sch
+//	@param fieldsMap
+//	@return []*Schema
+func (sch *Schema) SortSchemas(schMaps map[string]*Schema) []*Schema {
+	// Convert map to slice
+	fields := make([]*Schema, 0, len(schMaps))
+	for name, field := range schMaps {
+		field.Name = name
+		fields = append(fields, field)
+	}
+
+	// Sort slice by "Order"
+	sort.Slice(fields, func(i, j int) bool {
+		if fields[i].Order != nil && fields[j].Order != nil {
+			iOrder := fields[i].Order
+			jOrder := fields[j].Order
+			return *iOrder < *jOrder
+		}
+		return false
+	})
+
+	return fields
 }
 
 func (sch *Schema) addMap(source *Schema, target map[string]*Schema) map[string]*Schema {
@@ -20,6 +66,31 @@ func (sch *Schema) addMap(source *Schema, target map[string]*Schema) map[string]
 		sch.addMap(source.Ref, target)
 	}
 	return target
+}
+
+func (sch *Schema) GetType() string {
+	list := sch.Types.ToStrings()
+	for _, item := range list {
+		if item != "null" {
+			return item
+		}
+	}
+	return "null"
+}
+
+// IsRequired
+//
+//	@Description:  Helper function to check if a field is in the "required" list
+//	@receiver sch
+//	@param name
+//	@return bool
+func (sch *Schema) IsRequired(name string) bool {
+	for _, r := range sch.Required {
+		if r == name {
+			return true
+		}
+	}
+	return false
 }
 
 // GetFields
@@ -74,6 +145,18 @@ func (sch *Schema) getFieldsType(s *Schema, fields map[string]any, parentKey str
 			}
 		}
 	*/
+}
+
+func (sch *Schema) getName() string {
+	// 查找 "properties/" 的最后一个位置
+	index := strings.LastIndex(sch.Location, "properties/")
+	if index == -1 {
+		// 如果没有找到 "properties/"，返回空字符串
+		return ""
+	}
+
+	// 提取 "properties/" 之后的内容
+	return sch.Location[index+len("properties/"):]
 }
 
 // getFieldsProps
