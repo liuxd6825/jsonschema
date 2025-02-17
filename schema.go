@@ -10,20 +10,20 @@ import (
 // Schema is the regpresentation of a compiled
 // jsonschema.
 type Schema struct {
-	up                urlPtr             `json:"up"`
-	resource          *Schema            `json:"resource,omitempty"`
-	dynamicAnchors    map[string]*Schema `json:"dynamicAnchors,omitempty"`
-	allPropsEvaluated bool               `json:"allPropsEvaluated,omitempty"`
-	allItemsEvaluated bool               `json:"allItemsEvaluated,omitempty"`
-	numItemsEvaluated int                `json:"numItemsEvaluated,omitempty"`
+	up                urlPtr
+	resource          *Schema
+	dynamicAnchors    map[string]*Schema
+	allPropsEvaluated bool
+	allItemsEvaluated bool
+	numItemsEvaluated int
 
-	DraftVersion int    `json:"draftVersion" json:"draftVersion,omitempty"`
-	Location     string `json:"location" json:"location,omitempty"`
+	DraftVersion int    `json:"draftVersion" json:"-"`
+	Location     string `json:"location" json:"-"`
 
 	// type agnostic --
 	Bool            *bool       `json:"bool,omitempty"` // boolean schema
-	ID              string      `json:"ID,omitempty"`
-	Ref             *Schema     `json:"ref,omitempty"`
+	ID              string      `json:"id,omitempty"`
+	Ref             *Schema     `json:"$ref,omitempty"`
 	Anchor          string      `json:"anchor,omitempty"`
 	RecursiveRef    *Schema     `json:"recursiveRef,omitempty"`
 	RecursiveAnchor bool        `json:"recursiveAnchor,omitempty"`
@@ -39,7 +39,7 @@ type Schema struct {
 	If              *Schema     `json:"if,omitempty"`
 	Then            *Schema     `json:"then,omitempty"`
 	Else            *Schema     `json:"else,omitempty"`
-	Format          *Format     `json:"format,omitempty"`
+	Format          *Format     `json:"-"`
 
 	// object --
 	MaxProperties         *int                `json:"maxProperties,omitempty"`
@@ -47,7 +47,7 @@ type Schema struct {
 	Required              []string            `json:"required,omitempty"`
 	PropertyNames         *Schema             `json:"propertyNames,omitempty"`
 	Properties            map[string]*Schema  `json:"properties,omitempty"`
-	PatternProperties     map[Regexp]*Schema  `json:"patternProperties,omitempty"`
+	PatternProperties     map[Regexp]*Schema  `json:"-"`
 	AdditionalProperties  any                 `json:"additionalProperties,omitempty"` // nil or bool or *Schema
 	Dependencies          map[string]any      `json:"dependencies,omitempty"`         // value is []string or *Schema
 	DependentRequired     map[string][]string `json:"dependentRequired,omitempty"`
@@ -70,9 +70,9 @@ type Schema struct {
 	// string --
 	MinLength        *int       `json:"minLength,omitempty"`
 	MaxLength        *int       `json:"maxLength,omitempty"`
-	Pattern          Regexp     `json:"pattern,omitempty"`
-	ContentEncoding  *Decoder   `json:"contentEncoding,omitempty"`
-	ContentMediaType *MediaType `json:"contentMediaType,omitempty"`
+	Pattern          Regexp     `json:"-"`
+	ContentEncoding  *Decoder   `json:"-"`
+	ContentMediaType *MediaType `json:"-"`
 	ContentSchema    *Schema    `json:"contentSchema,omitempty"`
 
 	// number --
@@ -82,7 +82,7 @@ type Schema struct {
 	ExclusiveMinimum *big.Rat `json:"exclusiveMinimum,omitempty"`
 	MultipleOf       *big.Rat `json:"multipleOf,omitempty"`
 
-	Extensions []SchemaExt `json:"extensions,omitempty"`
+	Extensions []SchemaExt `json:"-"`
 
 	// annotations --
 	Title       string `json:"title,omitempty"`

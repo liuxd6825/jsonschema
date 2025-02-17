@@ -14,7 +14,7 @@ type Format struct {
 	Name string
 
 	// Validate checks if given value is of this format.
-	Validate func(v any) error
+	Validate func(v any) error `json:"-"`
 }
 
 var formats = map[string]*Format{
