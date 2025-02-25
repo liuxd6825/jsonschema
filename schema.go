@@ -218,7 +218,7 @@ func (jt jsonType) String() string {
 // Types encapsulates list of json value types.
 type Types int
 
-func newTypes(v any) *Types {
+func NewTypes(v any) *Types {
 	var types Types
 	switch v := v.(type) {
 	case string:

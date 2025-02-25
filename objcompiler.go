@@ -141,7 +141,7 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 
 	if c.hasVocab("validation") {
 		if t, ok := c.obj["type"]; ok {
-			s.Types = newTypes(t)
+			s.Types = NewTypes(t)
 		}
 		if arr := c.arrVal("enum"); arr != nil {
 			arr = append(arr, "date", "datetime")

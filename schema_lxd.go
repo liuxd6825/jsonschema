@@ -161,11 +161,11 @@ func (sch *Schema) getName() string {
 
 // getFieldsProps
 //
-//	@Description:
+//	@Description: 返回属性中的指定类型，支持深度搜索
 //	@receiver sch
-//	@param props
-//	@param fields
-//	@param types
+//	@param props 要搜索的属性集
+//	@param fields 返回的字段集
+//	@param types 要搜索的类型
 func (sch *Schema) getFieldsProps(props map[string]*Schema, fields map[string]any, parentKey string, types ...JsonType) {
 	if props == nil {
 		return
@@ -192,6 +192,12 @@ func (sch *Schema) getFieldsProps(props map[string]*Schema, fields map[string]an
 				if len(subFields) > 0 {
 					fields[k] = subFields
 				}
+			}
+		} else if p.Ref != nil {
+			subFields := map[string]any{}
+			p.Ref.getFieldsProps(p.Ref.Properties, subFields, k, types...)
+			if len(subFields) > 0 {
+				fields[k] = subFields
 			}
 		}
 	}
