@@ -120,7 +120,7 @@ func (sch *Schema) getFieldsType(s *Schema, fields map[string]any, parentKey str
 	if s.Types != nil {
 		if s.Types.Contains(JsonType_ArrayType) {
 			items := s.Items2020
-			if items != nil && items.Types.Contains(JsonType_ObjectType) {
+			if items != nil {
 				propsTimeFields := map[string]any{}
 				props := items.GetAllProperties()
 				sch.getFieldsProps(props, propsTimeFields, parentKey, types...)
@@ -192,10 +192,22 @@ func (sch *Schema) getFieldsProps(props map[string]*Schema, fields map[string]an
 				if len(subFields) > 0 {
 					fields[k] = subFields
 				}
+			} else if p.Types.Contains(JsonType_ArrayType) {
+				subFields := map[string]any{}
+				p.getFieldsType(p, subFields, k, types...)
+				if len(subFields) > 0 {
+					fields[k] = subFields
+				}
 			}
 		} else if p.Ref != nil {
 			subFields := map[string]any{}
 			p.Ref.getFieldsProps(p.Ref.Properties, subFields, k, types...)
+			if len(subFields) > 0 {
+				fields[k] = subFields
+			}
+		} else if p.Items2020 != nil {
+			subFields := map[string]any{}
+			p.Ref.getFieldsProps(p.Items2020.Properties, subFields, k, types...)
 			if len(subFields) > 0 {
 				fields[k] = subFields
 			}
