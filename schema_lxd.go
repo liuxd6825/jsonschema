@@ -105,6 +105,13 @@ func (sch *Schema) GetFields(types ...JsonType) map[string]any {
 	return fields
 }
 
+func (sch *Schema) GetTimeFields() map[string]any {
+	if sch.timeFields == nil {
+		sch.timeFields = sch.GetFields(JsonType_DateTimeType, JsonType_DateType)
+	}
+	return sch.timeFields
+}
+
 // getFieldsType
 //
 //	@Description: 深度获取schema的属性
