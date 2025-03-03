@@ -62,8 +62,16 @@ func (sch *Schema) addMap(source *Schema, target map[string]*Schema) map[string]
 		target[key] = value
 	}
 	// 添加ref属性
-	if source.Ref != nil && source.Ref.Properties != nil {
-		sch.addMap(source.Ref, target)
+	if source.Ref != nil {
+		if source.Ref.Properties != nil {
+			sch.addMap(source.Ref, target)
+		}
+		for _, item := range source.Ref.AllOf {
+			sch.addMap(item, target)
+		}
+		for _, item := range source.Ref.AnyOf {
+			sch.addMap(item, target)
+		}
 	}
 	return target
 }
