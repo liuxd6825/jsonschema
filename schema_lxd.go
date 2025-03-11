@@ -216,13 +216,15 @@ func (sch *Schema) getFieldsProps(props map[string]*Schema, fields map[string]an
 			}
 		} else if p.Ref != nil {
 			subFields := map[string]any{}
-			p.Ref.getFieldsProps(p.Ref.Properties, subFields, k, types...)
+			props := p.Ref.GetAllProperties()
+			p.Ref.getFieldsProps(props, subFields, k, types...)
 			if len(subFields) > 0 {
 				fields[k] = subFields
 			}
 		} else if p.Items2020 != nil {
 			subFields := map[string]any{}
-			p.Ref.getFieldsProps(p.Items2020.Properties, subFields, k, types...)
+			props := p.Items2020.GetAllProperties()
+			p.Ref.getFieldsProps(props, subFields, k, types...)
 			if len(subFields) > 0 {
 				fields[k] = subFields
 			}
