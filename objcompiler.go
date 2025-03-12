@@ -212,6 +212,10 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 	if s.Name == "" {
 		s.Name = s.getName()
 	}
+
+	fmap := c.objVal("dbField")
+	s.DBField = NewDBField(s.Name, fmap)
+	
 	return nil
 }
 
