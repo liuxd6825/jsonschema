@@ -1,8 +1,19 @@
 module github.com/liuxd6825/jsonschema/v6
 
-go 1.21
+go 1.23.0
+
+toolchain go1.23.4
 
 require (
-	github.com/dlclark/regexp2 v1.11.0 // used for testing
-	golang.org/x/text v0.14.0
+	github.com/dlclark/regexp2 v1.11.5 // used for testing
+	github.com/invopop/jsonschema v0.13.0
+	golang.org/x/text v0.23.0
+)
+
+require (
+	github.com/bahlo/generic-list-go v0.2.0 // indirect
+	github.com/buger/jsonparser v1.1.1 // indirect
+	github.com/mailru/easyjson v0.9.0 // indirect
+	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

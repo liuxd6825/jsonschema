@@ -1,10 +1,22 @@
 {
-
+  "$vocabulary": {
+    "https://json-schema.org/draft/2020-12/vocab/core": true,
+    "http://example.com/meta/db": true
+  },
   "name": "human",
   "type": "object",
   "required": ["id","name"],
   "description": "人员基本信息",
   "properties": {
+    "id": {
+      "type": "string",
+      "name": "id",
+      "title": "人员类型",
+      "order": 1,
+      "db":{
+        "primaryKey": true
+      }
+    },
     "peopleType": {
       "type": "array",
       "items": { "type": "string" },
@@ -12,6 +24,7 @@
       "title": "人员类型",
       "order": 1,
       "db":{
+        "fieldName": "people_type",
         "size": 1000
       }
     },
@@ -29,10 +42,7 @@
       "type": ["string", "null"],
       "name": "remark",
       "title": "备注",
-      "order": 3,
-      "db":{
-        "size": 100
-      }
+      "order": 3
     }
   }
 

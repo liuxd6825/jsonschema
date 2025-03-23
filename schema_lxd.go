@@ -1,9 +1,45 @@
 package jsonschema
 
 import (
+	"bytes"
 	"sort"
 	"strings"
 )
+
+type WithJsonOptions func(compiler *Compiler)
+
+func NewSchemaWithJson(fileName string, jsonText string, opts ...WithJsonOptions) (*Schema, error) {
+	compiler := NewCompiler()
+	compiler.AssertFormat()
+	compiler.AssertContent()
+
+	for _, o := range opts {
+		if o != nil {
+			o(compiler)
+		}
+	}
+
+	data, err := UnmarshalJSON(bytes.NewReader([]byte(jsonText)))
+	if err != nil {
+		return nil, err
+	}
+	if err = compiler.AddResource(fileName, data); err != nil {
+		return nil, err
+	}
+	sch, err := compiler.Compile(fileName)
+	if err != nil {
+		return nil, err
+	}
+	return sch, err
+}
+
+func NewSchemaWithStruct(fileName string, obj any, opts ...WithJsonOptions) (*Schema, error) {
+	jsonBytes, err := ReflectJson(obj)
+	if err != nil {
+		return nil, err
+	}
+	return NewSchemaWithJson(fileName, string(jsonBytes), opts...)
+}
 
 // GetAllProperties
 //

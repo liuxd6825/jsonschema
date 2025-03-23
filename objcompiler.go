@@ -213,9 +213,9 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 		s.Name = s.getName()
 	}
 
-	fmap := c.objVal("dbField")
-	s.DBField = NewDBField(s.Name, fmap)
-	
+	//dbMap := c.objVal("db")
+	//s.DB = NewDBProperty(s.Name, dbMap)
+
 	return nil
 }
 
