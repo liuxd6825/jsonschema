@@ -16,6 +16,7 @@ type DBField struct {
 	PrimaryKey bool    `json:"primaryKey"`
 	NotNull    bool    `json:"notNull"`
 	Unique     bool    `json:"unique"`
+	Creatable  bool    `json:"creatable"`
 	Updatable  bool    `json:"updatable"`
 	Readable   bool    `json:"readable"`
 	Order      DBOrder `json:"order"`
@@ -43,6 +44,10 @@ func (db *DBField) init(values map[string]any) error {
 		case "primaryKey":
 			if val, ok := value.(bool); ok {
 				db.PrimaryKey = val
+			}
+		case "creatable":
+			if val, ok := value.(bool); ok {
+				db.Creatable = val
 			}
 		case "size":
 			if val, ok := value.(json.Number); ok {
