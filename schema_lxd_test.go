@@ -25,7 +25,7 @@ func TestSchema_GetSortProperties(t *testing.T) {
 	schemaFile := "schema.json"
 	compiler := NewCompiler()
 	compiler.AssertVocabs()
-	compiler.RegisterVocabulary(extensions.NewDBVocabulary())
+	compiler.RegisterVocabulary(xextensions.NewDBVocabulary())
 
 	if err := compiler.AddResource(schemaFile, reader); err != nil {
 		panic(err)

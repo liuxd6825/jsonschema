@@ -1,4 +1,4 @@
-package extensions
+package xextensions
 
 import (
 	_ "embed"
@@ -6,11 +6,12 @@ import (
 )
 
 type MetaExtension struct {
-	DBField *DBField `json:"dbField,omitempty"`
-	DBTable *DBTable `json:"dbTable,omitempty"`
-	Column  *Column  `json:"column,omitempty"`
-	Query   *Query   `json:"query,omitempty"`
-	Lang    *Lang    `json:"lang,omitempty"`
+	DBField *DBField   `json:"dbField,omitempty"`
+	DBTable *DBTable   `json:"dbTable,omitempty"`
+	Column  *Column    `json:"column,omitempty"`
+	Query   *Query     `json:"query,omitempty"`
+	Lang    *Lang      `json:"lang,omitempty"`
+	Param   *HttpParam `json:"param,omitempty"`
 }
 
 //go:embed schema.json

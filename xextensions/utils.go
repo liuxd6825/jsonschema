@@ -1,9 +1,9 @@
-package extensions
+package xextensions
 
 import "github.com/liuxd6825/jsonschema/v6"
 
 func GetTableName(sch *jsonschema.Schema) string {
-	tableName := sch.GetName()
+	tableName := sch.Name()
 	for _, e := range sch.Extensions {
 		if meta, ok := e.(*MetaExtension); ok {
 			if meta.DBTable != nil && meta.DBTable.Name != "" {
@@ -16,7 +16,7 @@ func GetTableName(sch *jsonschema.Schema) string {
 }
 
 func GetFieldName(sch *jsonschema.Schema) string {
-	fieldName := sch.GetName()
+	fieldName := sch.Name()
 	for _, e := range sch.Extensions {
 		if meta, ok := e.(*MetaExtension); ok {
 			if meta.DBField != nil && meta.DBField.Name != "" {

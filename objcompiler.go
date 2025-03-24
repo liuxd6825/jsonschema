@@ -208,17 +208,12 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 	}
 
 	s.Order = c.intVal("order")
-	/*
-		s.Name = c.string("name")
-		if s.Name == "" {
-			s.Name = s.getName()
-		} */
 
-	name := s.getName()
-	println(name)
-
-	//dbMap := c.objVal("db")
-	//s.DB = NewDBProperty(s.Name, dbMap)
+	// 从schema文本中取得名称
+	s.name = s.getName()
+	if s.name == "" {
+		s.name = c.string("name")
+	}
 
 	return nil
 }

@@ -1,4 +1,4 @@
-package extensions
+package xextensions
 
 import (
 	"bytes"
@@ -38,7 +38,7 @@ func TestSchema_MetaExtension(t *testing.T) {
 
 	props := sch.GetSortProperties()
 	for _, prop := range props {
-		println(prop.GetName())
+		println(prop.Name())
 	}
 	t.Log(props)
 }

@@ -210,8 +210,8 @@ func (sch *Schema) getName() string {
 	return sch.Location[index+len("properties/"):]
 }
 
-func (sch *Schema) GetName() string {
-	return sch.getName()
+func (sch *Schema) Name() string {
+	return sch.name
 }
 
 // getFieldsProps

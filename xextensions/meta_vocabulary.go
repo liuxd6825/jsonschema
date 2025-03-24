@@ -1,4 +1,4 @@
-package extensions
+package xextensions
 
 import (
 	"github.com/liuxd6825/jsonschema/v6"
