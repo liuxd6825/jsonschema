@@ -7,13 +7,13 @@ import (
 	"testing"
 )
 
-func TestSchema_DBExtentsion(t *testing.T) {
+func TestSchema_MetaExtension(t *testing.T) {
 	path, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	data, err := os.ReadFile(path + "/testdata/db.json")
+	data, err := os.ReadFile(path + "/testdata/meta_example.json")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -25,7 +25,7 @@ func TestSchema_DBExtentsion(t *testing.T) {
 	schemaFile := "schema.json"
 	compiler := jsonschema.NewCompiler()
 	compiler.AssertVocabs()
-	compiler.RegisterVocabulary(NewDBVocabulary())
+	compiler.RegisterVocabulary(NewMetaVocabulary())
 
 	if err := compiler.AddResource(schemaFile, reader); err != nil {
 		panic(err)
@@ -37,5 +37,8 @@ func TestSchema_DBExtentsion(t *testing.T) {
 	}
 
 	props := sch.GetSortProperties()
+	for _, prop := range props {
+		println(prop.GetName())
+	}
 	t.Log(props)
 }

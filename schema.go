@@ -95,9 +95,9 @@ type Schema struct {
 	Deprecated  bool   `json:"deprecated,omitempty"`
 
 	// liuxd extend field
-	Order *int   `json:"order,omitempty"` // 排列顺序
-	Name  string `json:"name,omitempty"`  // 名称
-	//DB         *DBProperty    `json:"db,omitempty"`    // 数据库属性
+	Order *int `json:"order,omitempty"` // 排列顺序
+	//name  string `json:"name,omitempty"`  // 名称
+	// DB         *DBProperty    `json:"db,omitempty"`    // 数据库属性
 	timeFields map[string]any `json:"-"` // time date类型的属性
 }
 

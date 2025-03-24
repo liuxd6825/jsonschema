@@ -1,0 +1,72 @@
+{
+  "properties" : {
+    "meta" : {
+      "type" : "object",
+      "patternProperties" : {
+
+        "column":{
+          "type" : "object",
+          "patternProperties": {
+
+          }
+        },
+
+        "dbTable":{
+          "type" : "object",
+          "patternProperties": {
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+
+        "dbField": {
+          "type": "object",
+          "patternProperties": {
+            "fieldName": {
+              "type": "string"
+            },
+            "size": {
+              "type": "integer"
+            },
+            "primaryKey":{
+              "type": "boolean"
+            },
+            "notNull": {
+              "type": "boolean"
+            },
+            "unique": {
+              "type": "boolean"
+            },
+            "updatable": {
+              "type": "boolean",
+              "default": true
+            },
+            "readable": {
+              "type": "boolean",
+              "default": true
+            },
+            "order": {
+              "type": "string"
+            }
+          }
+        },
+
+        "lang":{
+          "type" : "object",
+          "patternProperties": {
+            "cn": {
+              "type": "string"
+            },
+            "en": {
+              "type": "string"
+            },
+            "de": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

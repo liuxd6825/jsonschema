@@ -75,8 +75,8 @@ func (sch *Schema) GetSortProperties() []*Schema {
 func (sch *Schema) SortSchemas(schMaps map[string]*Schema) []*Schema {
 	// Convert map to slice
 	fields := make([]*Schema, 0, len(schMaps))
-	for name, field := range schMaps {
-		field.Name = name
+	for _, field := range schMaps {
+		//field.Name = name
 		fields = append(fields, field)
 	}
 
@@ -208,6 +208,10 @@ func (sch *Schema) getName() string {
 
 	// 提取 "properties/" 之后的内容
 	return sch.Location[index+len("properties/"):]
+}
+
+func (sch *Schema) GetName() string {
+	return sch.getName()
 }
 
 // getFieldsProps
