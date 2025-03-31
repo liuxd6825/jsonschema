@@ -204,7 +204,10 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 	s.Title = c.string("title")
 	s.Description = c.string("description")
 	if v, ok := c.obj["default"]; ok {
-		s.Default = &v
+		s.Default = v
+		if vInt, ok := v.(json.Number); ok {
+			s.Default, err = vInt.Int64()
+		}
 	}
 
 	s.Order = c.intVal("order")

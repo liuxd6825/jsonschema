@@ -6,9 +6,17 @@ import (
 	"strings"
 )
 
+type TagExtension interface {
+	TagName() string
+}
+
 type WithJsonOptions func(compiler *Compiler)
 
 func NewSchemaWithJson(fileName string, jsonText string, opts ...WithJsonOptions) (*Schema, error) {
+	return NewSchemaWithBytes(fileName, []byte(jsonText), opts...)
+}
+
+func NewSchemaWithBytes(fileName string, fileBytes []byte, opts ...WithJsonOptions) (*Schema, error) {
 	compiler := NewCompiler()
 	compiler.AssertFormat()
 	compiler.AssertContent()
@@ -19,7 +27,7 @@ func NewSchemaWithJson(fileName string, jsonText string, opts ...WithJsonOptions
 		}
 	}
 
-	data, err := UnmarshalJSON(bytes.NewReader([]byte(jsonText)))
+	data, err := UnmarshalJSON(bytes.NewReader(fileBytes))
 	if err != nil {
 		return nil, err
 	}
@@ -64,6 +72,24 @@ func (sch *Schema) GetAllProperties() map[string]*Schema {
 func (sch *Schema) GetSortProperties() []*Schema {
 	props := sch.GetAllProperties()
 	return sch.SortSchemas(props)
+}
+
+func (sch *Schema) GetExtensions(tagName string) any {
+	if len(sch.Extensions) == 0 {
+		return nil
+	}
+	for _, v := range sch.Extensions {
+		if ext, ok := v.(TagExtension); ok {
+			if ext.TagName() == tagName {
+				return v
+			}
+		}
+	}
+	return nil
+}
+
+func (sch *Schema) GetView() *SchemaView {
+	return NewSchemaView(sch)
 }
 
 // SortSchemas

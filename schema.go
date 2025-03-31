@@ -87,7 +87,7 @@ type Schema struct {
 	// annotations --
 	Title       string `json:"title,omitempty"`
 	Description string `json:"description,omitempty"`
-	Default     *any   `json:"default,omitempty"`
+	Default     any    `json:"default,omitempty"`
 	Comment     string `json:"comment,omitempty"`
 	ReadOnly    bool   `json:"readOnly,omitempty"`
 	WriteOnly   bool   `json:"writeOnly,omitempty"`
@@ -95,10 +95,9 @@ type Schema struct {
 	Deprecated  bool   `json:"deprecated,omitempty"`
 
 	// liuxd extend field
-	Order *int   `json:"order,omitempty"` // 排列顺序
-	name  string `json:"name,omitempty"`  // 名称
-	// DB         *DBProperty    `json:"db,omitempty"`    // 数据库属性
-	timeFields map[string]any `json:"-"` // time date类型的属性
+	Order      *int           `json:"order,omitempty"` // 排列顺序
+	name       string         `json:"name,omitempty"`  // 名称
+	timeFields map[string]any `json:"-"`               // time date类型的属性
 }
 
 // --
@@ -251,8 +250,13 @@ func (tt Types) contains(t jsonType) bool {
 	return val
 }
 
-func (tt Types) Contains(t jsonType) bool {
-	return tt.contains(t)
+func (tt Types) Contains(list ...jsonType) bool {
+	for _, t := range list {
+		if b := tt.contains(t); b {
+			return true
+		}
+	}
+	return false
 }
 
 func (tt Types) ToStrings() []string {
