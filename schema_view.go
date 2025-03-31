@@ -7,7 +7,7 @@ type SchemaView struct {
 	Meta        any                    `json:"meta,omitempty"`
 	Properties  map[string]*SchemaView `json:"properties,omitempty"`
 	Order       *int                   `json:"order,omitempty"`
-	Items       map[string]*SchemaView `json:"items,omitempty"`
+	Items       any                    `json:"items,omitempty"`
 	MinLength   *int                   `json:"minLength,omitempty"`
 	MaxLength   *int                   `json:"maxLength,omitempty"`
 	Description string                 `json:"description,omitempty"`
@@ -36,6 +36,10 @@ func NewSchemaView(sch *Schema) *SchemaView {
 		Examples:    sch.Examples,
 		Deprecated:  sch.Deprecated,
 		Required:    sch.Required,
+	}
+
+	if sch.Items2020 != nil {
+		schemaView.Items = NewSchemaView(sch.Items2020)
 	}
 
 	props := sch.GetAllProperties()
