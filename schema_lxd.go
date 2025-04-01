@@ -2,6 +2,7 @@ package jsonschema
 
 import (
 	"bytes"
+	"fmt"
 	"sort"
 	"strings"
 )
@@ -193,7 +194,9 @@ func (sch *Schema) getFieldsType(s *Schema, fields map[string]any, parentKey str
 	if s == nil {
 		return
 	}
-
+	if s.Types == nil {
+		panic(fmt.Sprintf("jsonschema types is null, location:%s", s.Location))
+	}
 	if s.Types != nil {
 		if s.Types.Contains(JsonType_ArrayType) {
 			items := s.Items2020
