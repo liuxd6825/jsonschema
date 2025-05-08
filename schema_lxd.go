@@ -243,6 +243,67 @@ func (sch *Schema) Name() string {
 	return sch.name
 }
 
+// GetTitleByLocation 查找属性标题，支持多级查找
+func (sch *Schema) GetTitleByLocation(location []string) string {
+	findSch := sch
+	findOk := true
+	titles := make([]string, 0)
+	for _, name := range location {
+		if isInteger(name) {
+			titles = append(titles, "第"+name+"项")
+			continue
+		}
+		p, ok := findSch.Properties[name]
+		if !ok && findSch.Items2020 != nil {
+			if findSch.Items2020.Ref != nil {
+				p, ok = findSch.Items2020.Ref.Properties[name]
+			} else {
+				p, ok = findSch.Items2020.Properties[name]
+			}
+		}
+		if ok {
+			title := p.Title
+			if len(title) == 0 {
+				title = p.Name()
+			}
+			titles = append(titles, title)
+			findSch = p
+		} else {
+			findOk = false
+			break
+		}
+	}
+	if !findOk {
+		return ""
+	}
+	return strings.Join(titles, ".")
+}
+
+func (sch *Schema) GetPropertyByLocation(location []string) (list []*Schema, findOk bool) {
+	list, findOk = GetPropertyByLocation(sch, location)
+	return list, findOk
+}
+
+// GetPropertyByLocation 查找属性，支持多级查找
+func GetPropertyByLocation(rootSch *Schema, location []string) (list []*Schema, findOk bool) {
+	list = make([]*Schema, 0)
+	sch := rootSch
+	findOk = true
+	for _, name := range location {
+		if isInteger(name) {
+			continue
+		}
+		p, ok := sch.Properties[name]
+		if ok {
+			list = append(list, p)
+			sch = p
+		} else {
+			findOk = false
+		}
+	}
+	return list, findOk
+}
+
 // getFieldsProps
 //
 //	@Description: 返回属性中的指定类型，支持深度搜索
