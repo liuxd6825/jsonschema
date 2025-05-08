@@ -218,7 +218,21 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 		s.name = c.string("name")
 	}
 
+	s.Titles = c.mapStrings("titles")
+	c.setLanTitle(s.Titles, "en", s.name)
+	c.setLanTitle(s.Titles, "cn", s.Title, s.name)
+	c.setLanTitle(s.Titles, "de", s.name)
 	return nil
+}
+func (c *objCompiler) setLanTitle(lanMap map[string]string, lanType string, lanVal ...string) {
+	if _, ok := lanMap[lanType]; !ok {
+		for _, val := range lanVal {
+			if len(val) == 0 {
+				lanMap[lanType] = val
+				break
+			}
+		}
+	}
 }
 
 func (c *objCompiler) compileDraft6(s *Schema) error {
@@ -488,6 +502,23 @@ func (c *objCompiler) string(pname string) string {
 		return *s
 	}
 	return ""
+}
+
+func (c *objCompiler) mapStrings(pname string) map[string]string {
+	v, ok := c.obj[pname]
+	if !ok {
+		return nil
+	}
+	s, ok := v.(map[string]any)
+	if !ok {
+		return nil
+	}
+	res := make(map[string]string)
+	for k, v := range s {
+		val := fmt.Sprintf("%v", v)
+		res[k] = val
+	}
+	return res
 }
 
 func (c *objCompiler) numVal(pname string) *big.Rat {

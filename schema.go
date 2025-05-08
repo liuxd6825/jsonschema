@@ -85,14 +85,15 @@ type Schema struct {
 	Extensions []SchemaExt `json:"-"`
 
 	// annotations --
-	Title       string `json:"title,omitempty"`
-	Description string `json:"description,omitempty"`
-	Default     any    `json:"default,omitempty"`
-	Comment     string `json:"comment,omitempty"`
-	ReadOnly    bool   `json:"readOnly,omitempty"`
-	WriteOnly   bool   `json:"writeOnly,omitempty"`
-	Examples    []any  `json:"examples,omitempty"`
-	Deprecated  bool   `json:"deprecated,omitempty"`
+	Title       string            `json:"title,omitempty"`
+	Titles      map[string]string `json:"titles,omitempty"`
+	Description string            `json:"description,omitempty"`
+	Default     any               `json:"default,omitempty"`
+	Comment     string            `json:"comment,omitempty"`
+	ReadOnly    bool              `json:"readOnly,omitempty"`
+	WriteOnly   bool              `json:"writeOnly,omitempty"`
+	Examples    []any             `json:"examples,omitempty"`
+	Deprecated  bool              `json:"deprecated,omitempty"`
 
 	// liuxd extend field
 	Order      *int           `json:"order,omitempty"` // 排列顺序

@@ -3,6 +3,7 @@ package jsonschema
 type SchemaView struct {
 	Name          string                 `json:"name,omitempty"`
 	Title         string                 `json:"title,omitempty"`
+	Titles        map[string]string      `json:"titles,omitempty"`
 	Type          []string               `json:"type,omitempty"`
 	Meta          any                    `json:"meta,omitempty"`
 	Properties    map[string]*SchemaView `json:"properties,omitempty"`
@@ -25,6 +26,7 @@ func NewSchemaView(sch *Schema) *SchemaView {
 	schemaView := &SchemaView{
 		Name:        sch.Name(),
 		Title:       sch.Title,
+		Titles:      sch.Titles,
 		Type:        sch.Types.ToStrings(),
 		Order:       sch.Order,
 		Meta:        sch.GetExtensions("meta"),
