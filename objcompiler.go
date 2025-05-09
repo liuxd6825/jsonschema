@@ -227,7 +227,7 @@ func (c *objCompiler) compileDraft4(s *Schema) error {
 func (c *objCompiler) setLanTitle(lanMap map[string]string, lanType string, lanVal ...string) {
 	if _, ok := lanMap[lanType]; !ok {
 		for _, val := range lanVal {
-			if len(val) == 0 {
+			if len(val) > 0 {
 				lanMap[lanType] = val
 				break
 			}
@@ -504,16 +504,17 @@ func (c *objCompiler) string(pname string) string {
 	return ""
 }
 
-func (c *objCompiler) mapStrings(pname string) map[string]string {
+func (c *objCompiler) mapStrings(pname string) (res map[string]string) {
+	res = make(map[string]string)
 	v, ok := c.obj[pname]
 	if !ok {
-		return nil
+		return
 	}
 	s, ok := v.(map[string]any)
 	if !ok {
-		return nil
+		return
 	}
-	res := make(map[string]string)
+
 	for k, v := range s {
 		val := fmt.Sprintf("%v", v)
 		res[k] = val
