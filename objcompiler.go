@@ -71,7 +71,7 @@ func (c *objCompiler) compile(s *Schema) error {
 		if v == nil {
 			continue
 		}
-		ext, err := v.Compile(&CompilerContext{c}, c.obj)
+		ext, err := v.Compile(&CompilerContext{c: c, sch: s}, c.obj)
 		if err != nil {
 			return err
 		}

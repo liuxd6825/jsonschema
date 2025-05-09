@@ -3,7 +3,8 @@ package jsonschema
 // CompilerContext provides helpers for
 // compiling a [Vocabulary].
 type CompilerContext struct {
-	c *objCompiler
+	c   *objCompiler
+	sch *Schema
 }
 
 func (ctx *CompilerContext) Enqueue(schPath []string) *Schema {
@@ -12,6 +13,14 @@ func (ctx *CompilerContext) Enqueue(schPath []string) *Schema {
 		ptr = ptr.append(tok)
 	}
 	return ctx.c.enqueuePtr(ptr)
+}
+
+func (ctx *CompilerContext) GetObjCompiler() *objCompiler {
+	return ctx.c
+}
+
+func (ctx *CompilerContext) GetSchema() *Schema {
+	return ctx.sch
 }
 
 // Vocabulary defines a set of keywords, their syntax and

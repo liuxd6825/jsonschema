@@ -121,8 +121,13 @@ func (sch *Schema) SortSchemas(schMaps map[string]*Schema) []*Schema {
 }
 
 func (sch *Schema) addMap(source *Schema, target map[string]*Schema) map[string]*Schema {
-	for key, value := range source.Properties {
-		target[key] = value
+	for key, srcProp := range source.Properties {
+		if _, ok := target[key]; ok {
+			continue
+		} else {
+			target[key] = srcProp
+		}
+
 	}
 	// 添加ref属性
 	if source.Ref != nil {
