@@ -2,7 +2,7 @@ package jsonschema
 
 import (
 	"bytes"
-	"github.com/liuxd6825/jsonschema/v6/extensions"
+	//"github.com/liuxd6825/jsonschema/v6/extensions"
 	"os"
 	"testing"
 )
@@ -25,7 +25,7 @@ func TestSchema_GetSortProperties(t *testing.T) {
 	schemaFile := "schema.json"
 	compiler := NewCompiler()
 	compiler.AssertVocabs()
-	compiler.RegisterVocabulary(xextensions.NewDBVocabulary())
+	//compiler.RegisterVocabulary(xextensions.NewDBVocabulary())
 
 	if err := compiler.AddResource(schemaFile, reader); err != nil {
 		panic(err)
