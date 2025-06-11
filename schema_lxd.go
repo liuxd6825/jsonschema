@@ -248,6 +248,10 @@ func (sch *Schema) Name() string {
 	return sch.name
 }
 
+func (sch *Schema) SetName(val string)  {
+	sch.name = val
+}
+
 // GetTitleByLocation 查找属性标题，支持多级查找
 func (sch *Schema) GetTitleByLocation(location []string) string {
 	findSch := sch
